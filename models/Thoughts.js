@@ -17,7 +17,6 @@ const thoughtsSchema = new Schema(
       type: String,
       required: true,
     },
-    userid: { type: String, reqired: true },
     reactions: [reactions],
   },
   { toJSON: { virtuals: true }, id: false }

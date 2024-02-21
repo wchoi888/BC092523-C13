@@ -93,7 +93,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  async addThoughtReactions(req, res) {
+  async addReaction(req, res) {
     try {
       const thought = await Thoughts.findOneAndUpdate(
         { _id: req.params.thoughtId },
@@ -110,8 +110,23 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-};
-const reactionCount = async () => {
-  const numberOfReactions = await Thoughts.aggregate().count("reactionCount");
-  return numberOfReactions;
+  async removeReaction(req, res) {
+    try {
+      const thought = await Thoughts.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: { reactionId: req.params.reactionId } } },
+        { runValidators: true, new: true }
+      );
+
+      if (!thought) {
+        return res
+          .status(404)
+          .json({ message: "No thought found with that ID :(" });
+      }
+
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
 };

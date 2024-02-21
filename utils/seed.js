@@ -30,11 +30,14 @@ connection.once("open", async () => {
   const thoughts = getRandomThoughts(15);
 
   const thoughtsData = await Thoughts.insertMany(thoughts);
-  const users = usernames.map((username) => ({
-    username,
-    email: getRandomEmail(username),
-    userThoughts: thoughtsData.map((thought) => thought._id),
-  }));
+  const users = [];
+  usernames.forEach((username) => {
+    const email = getRandomEmail(username);
+    const userThoughts = thoughtsData
+      .filter((thought) => thought.username === username)
+      .map((thought) => thought._id);
+    users.push({ username, email, thoughts: userThoughts });
+  });
 
   await Users.insertMany(users);
 

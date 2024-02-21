@@ -2,22 +2,12 @@ const { ObjectId } = require("mongoose").Types;
 const { Users, Thoughts } = require("../models");
 
 // Aggregate function to get the number of students overall
-const friendCount = async () => {
-  const numberOfFriends = await Users.aggregate().count("friendCount");
-  return numberOfFriends;
-};
-
 module.exports = {
   async getUsers(req, res) {
     try {
       const users = await Users.find().populate("thoughts");
 
-      const userObj = {
-        users,
-        friendCount: await friendCount(),
-      };
-
-      res.json(userObj);
+      res.json(users);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -84,15 +74,14 @@ module.exports = {
     }
   },
 
-  // Add an assignment to a student
   async addFriend(req, res) {
     console.log("You are adding a friend");
     console.log(req.body);
 
     try {
       const user = await Users.findOneAndUpdate(
-        { _id: req.params.usersId },
-        { $addToSet: { friends: req.body } },
+        { _id: req.params.userId },
+        { $addToSet: { friends: req.body.friendId } },
         { runValidators: true, new: true }
       );
 
@@ -104,14 +93,17 @@ module.exports = {
 
       res.json(user);
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   },
-  // Remove assignment from a student
+
   async removeFriend(req, res) {
+    console.log("You are removing a friend");
+    console.log(req.params.friendId);
     try {
       const user = await Users.findOneAndUpdate(
-        { _id: req.params.usersId },
+        { _id: req.params.userId },
         { $pull: { friends: req.params.friendId } },
         { runValidators: true, new: true }
       );
