@@ -1,8 +1,9 @@
+// Importing necessary modules and models
 const { ObjectId } = require("mongoose").Types;
 const { Users, Thoughts } = require("../models");
-
-// Aggregate function to get the number of students overall
+// Exporting an object containing various asynchronous functions to handle different API endpoints related to users
 module.exports = {
+  // Function to retrieve all users from the database and populate their associated thoughts
   async getUsers(req, res) {
     try {
       const users = await Users.find().populate("thoughts");
@@ -13,11 +14,11 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
+  // Function to retrieve a single user by their ID and populate their associated thoughts
   async getSingleUser(req, res) {
     try {
       const user = await Users.findOne({
         _id: req.params.userId,
-        // }).populate("thoughts").select("-__v");
       }).populate("thoughts");
 
       if (!user) {
@@ -30,7 +31,7 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-
+  // Function to create a new user
   async createUser(req, res) {
     try {
       const user = await Users.create(req.body);
@@ -39,7 +40,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-
+  // Function to delete a user by their ID and delete all their associated thoughts
   async deleteUser(req, res) {
     try {
       const user = await Users.findOneAndDelete({
@@ -56,6 +57,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+  // Function to update a user by their ID
   async updateUser(req, res) {
     try {
       const user = await Users.findOneAndUpdate(
@@ -73,7 +75,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-
+  // Function to add a friend to a user's friend list
   async addFriend(req, res) {
     console.log("You are adding a friend");
     console.log(req.body);
@@ -97,7 +99,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-
+  // Function to remove a friend from a user's friend list
   async removeFriend(req, res) {
     console.log("You are removing a friend");
     console.log(req.params.friendId);

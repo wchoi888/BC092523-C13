@@ -1,3 +1,4 @@
+// Array of common usernames
 const usernames = [
   "Aaran",
   "Aaren",
@@ -14,9 +15,9 @@ const usernames = [
   "Zenith",
   "Zennon",
 ];
-
+// Array of common email extensions
 const emailExt = ["@gmail.com", "@live.com", "@yahoo.com"];
-
+// Array of example thoughts
 const thoughts = [
   "How to disagree with someone",
   "iPhone review",
@@ -30,7 +31,7 @@ const thoughts = [
   "Apology video",
   "Submission for startup pitch",
 ];
-
+// Array of example reactions
 const reactions = [
   "love",
   "grinning",
@@ -50,21 +51,17 @@ const reactions = [
   "furious",
   "indifferent",
 ];
-
+// Array to hold generated user data
 const usersData = [];
-
-// Get a random item given an array
+// Function to get a random item from an array
 const getRandomArrItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
-// Gets a random username
+// Function to get a random username from the usernames array
 const getRandomName = () => `${getRandomArrItem(usernames)}`;
-// Gets a random thoughts
-`${getRandomArrItem(thoughts)}`;
-// Gets a random thoughts
-const getRandomEmail = (username) => `${username}${getRandomArrItem(emailExt)}`;
-// Gets a random reactions
 
-// Function to generate random videos that we can add to the database. Includes video responses.
+`${getRandomArrItem(thoughts)}`;
+// Function to get a random email based on a username and an email extension
+const getRandomEmail = (username) => `${username}${getRandomArrItem(emailExt)}`;
+// Function to generate random thoughts data
 const getRandomThoughts = (int) => {
   let results = [];
   for (let i = 0; i < int; i++) {
@@ -76,7 +73,7 @@ const getRandomThoughts = (int) => {
   }
   return results;
 };
-
+// Function to generate random reactions data
 const getRandomReactions = (int) => {
   let results = [];
   for (let i = 0; i < int; i++) {
